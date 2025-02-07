@@ -1,0 +1,24 @@
+*Treatment 7 -- Prescribed fire with defaults.
+
+FMIN
+* Freeform:  CarbCalc: Set the carbon accounting parameters.
+CarbCalc           1         2    0.0425         9        11
+
+* FireCalc: Adjust the fuel model selection logic. . .  to predict fire behavior.
+FireCalc        2024         1         2      2000      1800      1500      0.10      0.75      8000
+END
+
+*Cycle begins at year___
+CycleAt         2024 
+
+FMIN
+* Prescibed Fire with defaults
+* wind speed -- 8 mph
+* moisture level -- 2 Dry
+* temperature -- 70 F
+* FFE estimates mortality
+* 70% of stand is burned
+* Burning occurs in early spring
+
+SimFire         2024         8         2        70         1        70         1
+END

@@ -1,0 +1,47 @@
+*Treatment 2 :: heavy thinning & biomass removal, pile burn the branchwood
+
+FMIN
+* Freeform:  CarbCalc: Set the carbon accounting parameters.
+CarbCalc           1         2    0.0425         9        11
+
+* FireCalc: Adjust the fuel model selection logic. . .  to predict fire behavior.
+FireCalc        2024         1         2      2000      1800      1500      0.10      0.75      8000
+END
+
+*Cycle begins at year___
+CycleAt         2024 
+
+* Set YARDLOSS preferences
+YardLoss        2024        .1         1       .07
+
+Estab
+Sprout          2024    Parms(BO, .25, 1., 0., 999.)
+Sprout          2024    Parms(CY, .25, 1., 0., 999.)
+Sprout          2024    Parms(IO, .25, 1., 0., 999.)
+End
+
+
+* calculates the amount of live carbon removed from the thinning operation
+Compute     	2024
+LiveCRem = TreeBio(0,0,1,All,0.,200.,0.,500.) * 0.5 * 0.907185
+End
+
+* Thin through a diameter range from 0-2" with target TPA 5.
+ThinDBH         2024     0.        2.        1.       All       5.         0 
+
+*THINBTA: Thin from below to a trees per acre target 
+*Residual TPA = 1; proportion of selected trees removed = 1 
+*lower DBH = 2; upper DBH = 10
+ThinBTA         2024    Parms(1,1,2,10,0,999)
+
+*THINBBA: Thin from below to a basal area target 
+*Residual BA= 2; proportion of selected trees removed = 1 
+*lower DBH = 4; upper DBH = 16
+ThinBBA         2024     Parms(2,1,4,16,0,999)
+
+ 
+FMIN
+PileBurn        2024    Parms(1,100,5,0.7*100,0)
+END
+FixMort         2024    Parms(All,0.05,0,3.,1,0)
+

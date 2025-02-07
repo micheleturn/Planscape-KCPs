@@ -1,0 +1,59 @@
+* Treatment 5 moderate mastication 
+* This is a suitable file for moderate mastication with 1-3" pieces.
+
+FMIN
+* Freeform:  CarbCalc: Set the carbon accounting parameters.
+CarbCalc           1         2    0.0425         9        11
+
+* FireCalc: Adjust the fuel model selection logic. . .  to predict fire behavior.
+FireCalc        2024         1         2      2000      1800      1500      0.10      0.75      8000
+END
+
+*Cycle begins at year___
+CycleAt         2024 
+Estab
+Sprout          2024    Parms(BO, .25, 1., 0., 999.)
+Sprout          2024    Parms(CY, .25, 1., 0., 999.)
+Sprout          2024    Parms(IO, .25, 1., 0., 999.)
+End
+
+* Masticate trees <10" dbh to 2 TPA in 0-4" size class
+* Size of masticated fuels: 1"-3"
+* Proportion of surface fuel composed of masticated pieces: .7
+YardLoss        2024    Parms(1,1,1)
+ThinDBH         2024     0.        4.        1.       All       2.         0
+ThinBTA         2024    Parms(0,0.9,4,10,0,999)
+FMIN
+FuelMove        2024    Parms(9,3,0,0.7,999,0)
+FuelMove        2024    Parms(8,3,0,0.7,999,0)
+FuelMove        2024    Parms(7,3,0,0.7,999,0)
+FuelMove        2024    Parms(6,3,0,0.7,999,0)
+FuelMove        2024    Parms(5,3,0,0.7,999,0)
+FuelMove        2024    Parms(4,3,0,max(0,min(0.7,4-3)),999,0)
+FuelMove        2024    Parms(3,3,0,max(0,min(0.7,3-3)),999,0)
+FuelMove        2024    Parms(2,3,0,max(0,min(0.7,2-3)),999,0)
+END
+*Treatment 7 -- Prescribed fire with defaults.
+
+FMIN
+* Freeform:  CarbCalc: Set the carbon accounting parameters.
+CarbCalc           1         2    0.0425         9        11
+
+* FireCalc: Adjust the fuel model selection logic. . .  to predict fire behavior.
+FireCalc        2034         1         2      2000      1800      1500      0.10      0.75      8000
+END
+
+*Cycle begins at year___
+CycleAt         2034 
+
+FMIN
+* Prescibed Fire with defaults
+* wind speed -- 8 mph
+* moisture level -- 2 Dry
+* temperature -- 70 F
+* FFE estimates mortality
+* 70% of stand is burned
+* Burning occurs in early spring
+
+SimFire         2034         8         2        70         1        70         1
+END

@@ -1,0 +1,82 @@
+*Treatment 3 :: moderate thinning & no biomass removal, pile burn stems & branchwood
+
+FMIN
+* Freeform:  CarbCalc: Set the carbon accounting parameters.
+CarbCalc           1         2    0.0425         9        11
+
+* FireCalc: Adjust the fuel model selection logic. . .  to predict fire behavior.
+FireCalc        2024         1         2      2000      1800      1500      0.10      0.75      8000
+END
+
+*Cycle begins at year___
+CycleAt         2024 
+
+* Set YARDLOSS preferences: 100% cut stems are left, 100% stems are down, 100% of branchwood is burned.
+YardLoss        2024         1         1         1
+
+Estab
+Sprout          2024    Parms(BO, .25, 1., 0., 999.)
+Sprout          2024    Parms(CY, .25, 1., 0., 999.)
+Sprout          2024    Parms(IO, .25, 1., 0., 999.)
+End
+
+* Thin through a diameter range from 0-4" with target TPA 5.
+ThinDBH         2024     0.        4.        1.       All       5.         0 
+
+*THINBTA: Thin from below to a trees per acre target 
+*Residual TPA = 2; proportion of selected trees removed = 1 
+*lower DBH = 4; upper DBH = 10
+ThinBTA         2024    Parms(2,1,4,10,0,999)
+
+*THINBBA: Thin from below to a basal area target 
+*Residual BA= 10; proportion of selected trees removed = 1 
+*lower DBH = 10; upper DBH = 14
+ThinBBA         2024     Parms(10,1,10,14,0,999)
+
+ 
+FMIN
+PileBurn        2024    Parms(1,100,5,0.7*100,0)
+END
+FixMort         2024    Parms(All,0.05,0,3.,1,0)
+
+*Treatment 3 :: moderate thinning & no biomass removal, pile burn stems & branchwood
+
+FMIN
+* Freeform:  CarbCalc: Set the carbon accounting parameters.
+CarbCalc           1         2    0.0425         9        11
+
+* FireCalc: Adjust the fuel model selection logic. . .  to predict fire behavior.
+FireCalc        2034         1         2      2000      1800      1500      0.10      0.75      8000
+END
+
+*Cycle begins at year___
+CycleAt         2034 
+
+* Set YARDLOSS preferences: 100% cut stems are left, 100% stems are down, 100% of branchwood is burned.
+YardLoss        2034         1         1         1
+
+Estab
+Sprout          2034    Parms(BO, .25, 1., 0., 999.)
+Sprout          2034    Parms(CY, .25, 1., 0., 999.)
+Sprout          2034    Parms(IO, .25, 1., 0., 999.)
+End
+
+* Thin through a diameter range from 0-4" with target TPA 5.
+ThinDBH         2034     0.        4.        1.       All       5.         0 
+
+*THINBTA: Thin from below to a trees per acre target 
+*Residual TPA = 2; proportion of selected trees removed = 1 
+*lower DBH = 4; upper DBH = 10
+ThinBTA         2034    Parms(2,1,4,10,0,999)
+
+*THINBBA: Thin from below to a basal area target 
+*Residual BA= 10; proportion of selected trees removed = 1 
+*lower DBH = 10; upper DBH = 14
+ThinBBA         2034     Parms(10,1,10,14,0,999)
+
+ 
+FMIN
+PileBurn        2034    Parms(1,100,5,0.7*100,0)
+END
+FixMort         2034    Parms(All,0.05,0,3.,1,0)
+

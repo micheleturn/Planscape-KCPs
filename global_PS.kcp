@@ -1,0 +1,111 @@
+* DAS 17May24 for Planscape "pre-bakes"
+NoTriple
+NoAutoES
+
+* Args: Fcalc, FMset, SAV1, SAVH, SAVW, BDL, BDD, HC
+* always use SB FBFMs
+FMin
+FireCalc           0   Parms(1, 1, 2000., 1800., 1500., 0.1, 0.75, 8000.)
+End
+
+* DAS 17May24: from ALL_spp_WS.kcp
+* OK if year == 2022
+
+* Set Species removal preferences
+SpecPref        2022        WF        10
+SpecPref        2022        LP        10
+SpecPref        2022        IC        10
+SpecPref        2022        RF        5
+SpecPref        2022        DF        -5
+SpecPref        2022        PP      -10.
+SpecPref        2022        JP      -10.
+SpecPref        2022        SP      -50.
+SpecPref        2022        BO      -200.
+SpecPref        2022        GS      -200.
+SpecPref        2022        WB      -200.
+SpecPref        2022        WP      -200.
+SpecPref        2022        PM      -200.
+SpecPref        2022        SF      -200.
+SpecPref        2022        KP      -200.
+SpecPref        2022        FP      -200.
+SpecPref        2022        CP      -200.
+SpecPref        2022        LM      -200.
+SpecPref        2022        MP      -200.
+SpecPref        2022        GP      -200.
+SpecPref        2022        WE      -200.
+SpecPref        2022        GB      -200.
+SpecPref        2022        BD      -200.
+SpecPref        2022        RW      -200.
+SpecPref        2022        MH      -200.
+SpecPref        2022        WJ      -200.
+SpecPref        2022        UJ      -200.
+SpecPref        2022        CJ      -200.
+SpecPref        2022        LO      -200.
+SpecPref        2022        CY      -200.
+SpecPref        2022        BL      -200.
+SpecPref        2022        VO      -200.
+SpecPref        2022        IO      -200.
+SpecPref        2022        TO      -200.
+SpecPref        2022        GC      -200.
+SpecPref        2022        AS      -200.
+SpecPref        2022        CL      -200.
+SpecPref        2022        MA      -200.
+SpecPref        2022        DG      -200.
+SpecPref        2022        BM      -200.
+SpecPref        2022        MC      -200.
+SpecPref        2022        OS      -200.
+SpecPref        2022        OH      -200.
+
+* We need to output...
+* total carbon: FVS_Carbon.Total_Stand_Carbon
+* large tree carbon: WCS used STABLEBM (below)
+
+* SDI: FVS_Summary2.SDI
+* QMD: FVS_Summary2.QMD
+* fortype: FVS_Summary.Fortyp
+* merch biomass: FVS_Summary2.MCuFt
+* non-merch biomass: FVS_Summary2.TCuFt - FVS_Summary2.MCuFt
+
+* mortality: FVS_PotFire.Mortality_BA_Sev
+* potential smoke: FVS_PotFire.Pot_Smoke_Sev
+* PTorch: FVS_PotFire.PTorch_Sev
+* flame length: FVS_PotFire.Surf_Flame_Sev or FVS_PotFire.Tot_Flame_Sev
+* CC, CBD, CBH, TH, FBFM: already computed via LCP_variables.kcp 
+
+* these are copied from global_WCS.kcp for good measure
+Compute            0
+* pre-thin SDI, all live trees, 1933 eqns
+SDI33 = BSDI
+* post-thin SDI, all live trees, 1933 eqns
+ASDI33 = ASDI
+* pre-thin SDI, all live trees, 1983 eqns
+SDI83 = BSDI2
+* post-thin SDI, all live trees, 1983 eqns
+ASDI83 = ASDI2
+* pre-thin max SDI, all live trees, ? eqns
+BSDI_MAX = BSDIMAX
+* stem biomass in standing live trees, all spp, 0-10", all hts (BDT/ac)
+STEM_BM = TREEBIO(-1,0,-1,0,0,10,0,999)
+* crown biomass in standing live trees, all spp, 0-10", all hts (BDT/ac)
+CRWN_BM = TREEBIO(-1,0,0,0,0,10,0,999)
+* stem + crown biomass in standing live trees, all spp, >=20", all hts (BDT/ac)
+STABLEBM = TREEBIO(-1,0,1,0,20,999,0,999)
+* snag biomass, all spp, all decay classes (cu ft/ac)
+SNAG_BM = SNAGS(3,0,0,0,999,0,999)
+* tree density, live trees, all spp, all hts, various DBH classes
+TPA_LT15 = SPMCDBH(1,0,0,0,14.999,0,999,0)
+TPA_GE15 = SPMCDBH(1,0,0,15,999,0,999,0)
+TPA_GE20 = SPMCDBH(1,0,0,20,999,0,999,0)
+TPA_GE30 = SPMCDBH(1,0,0,30,999,0,999,0)
+TPA_GE40 = SPMCDBH(1,0,0,40,999,0,999,0)
+* BA, live trees > 5" DBH
+BA_GT5 = SPMCDBH(2,0,0,5,999,0,999,0)
+* QMD, live trees > 5" DBH
+QMD_GT5 = SPMCDBH(5,0,0,5,999,0,999,0)
+* snag density, all snags > 20" DBH
+SNGTPA20 = SNAGS(1,0,0,20,999,0,999)
+* down downed fuel loads (sum of 0 through >50" categories) (BDT/ac)
+DDFL_ALL = FUELLOAD(1,9)
+* CC, merch, FL, fire type, PTorch, smoke available elsewhere
+End
+
